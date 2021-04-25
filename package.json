@@ -1,5 +1,5 @@
 {
-  "name": "next-seo",
+  "name": "next-seo-yuku-fork",
   "version": "4.24.0",
   "description": "SEO plugin for Next.js projects",
   "source": "src/index.tsx",
