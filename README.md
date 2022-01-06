@@ -30,6 +30,7 @@ looking for inspiration on what to add.
     - [dangerouslySetAllPagesToNoIndex](#dangerouslysetallpagestonoindex)
     - [No Follow](#no-follow)
     - [dangerouslySetAllPagesToNoFollow](#dangerouslysetallpagestonofollow)
+    - [dangerouslyDisableGooglebot](#dangerouslydisablegooglebot)
     - [robotsProps](#robotsprops)
     - [Twitter](#twitter)
     - [facebook](#facebook)
@@ -62,6 +63,7 @@ looking for inspiration on what to add.
   - [Social Profile](#social-profile)
   - [News Article](#news-article)
   - [Video](#video-1)
+  - [VideoGame](#videogame)
   - [Event](#event)
   - [Q&A](#qa)
   - [Collection Page](#collection-page)
@@ -139,12 +141,14 @@ const Page = () => (
             width: 800,
             height: 600,
             alt: 'Og Image Alt',
+            type: 'image/jpeg',
           },
           {
             url: 'https://www.example.ie/og-image-02.jpg',
             width: 900,
             height: 800,
             alt: 'Og Image Alt Second',
+            type: 'image/jpeg',
           },
           { url: 'https://www.example.ie/og-image-03.jpg' },
           { url: 'https://www.example.ie/og-image-04.jpg' },
@@ -174,7 +178,7 @@ Some tools may report this an error. See [Issue #14](https://github.com/garmeeh/
 
 `NextSeo` enables you to set some default SEO properties that will appear on all pages without needing to do include anything on them. You can also override these on a page by page basis if needed.
 
-To achieve this, you will need to create a custom `<App>`. In your pages directory create a new file, `_app.js`. See the Next.js docs [here](https://github.com/zeit/next.js/#custom-app) for more info on a custom `<App>`.
+To achieve this, you will need to create a custom `<App>`. In your pages directory create a new file, `_app.js`. See the Next.js docs [here](https://nextjs.org/docs/advanced-features/custom-app) for more info on a custom `<App>`.
 
 Within this file you will need to import `DefaultSeo` from `next-seo` and pass it props.
 
@@ -257,7 +261,8 @@ From now on all of your pages will have the defaults above applied.
 | `defaultTitle`                     | string                  | If no title is set on a page, this string will be used instead of an empty `titleTemplate` [More Info](#default-title)                                                               |
 | `noindex`                          | boolean (default false) | Sets whether page should be indexed or not [More Info](#no-index)                                                                                                                    |
 | `nofollow`                         | boolean (default false) | Sets whether page should be followed or not [More Info](#no-follow)                                                                                                                  |
-| `additionRobotsProps`              | Object                  | Set the more meta information for the `X-Robots-Tag` [More Info](#additionalrobotsprops)                                                                                             |
+| `additionRobotsProps`              | Object                  | Set the more meta information for the `X-Robots-Tag` [More Info](#robotsprops)                                                                                                       |
+| `disableGooglebot`                 | boolean (default false) | Disable googlebot metatags from being added to the page.                                                                                                                             |
 | `description`                      | string                  | Set the page meta description                                                                                                                                                        |
 | `canonical`                        | string                  | Set the page canonical url                                                                                                                                                           |
 | `mobileAlternate.media`            | string                  | Set what screen size the mobile website should be served from                                                                                                                        |
@@ -394,6 +399,12 @@ The only way to unset this, is by removing the prop from the `DefaultSeo` in you
 | --        | true       | `index,nofollow`                        |
 | false     | true       | `index,nofollow`                        |
 | true      | true       | `noindex,nofollow`                      |
+
+#### dangerouslyDisableGooglebot
+
+It has the prefix of `dangerously` because it will remove googlebot tags from all pages. As this is an SEO plugin, that is kinda dangerous action. It is **not** bad to use this, just please be sure you want to remove googlebot tags from **EVERY** page.
+
+The only way to unset this, is by removing the prop from the `DefaultSeo` in your custom `<App>`.
 
 #### robotsProps
 
@@ -1111,8 +1122,7 @@ const Page = () => (
       instructions={[
         {
           name: 'Preheat',
-          text:
-            'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan.',
+          text: 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan.',
           url: 'https://example.com/party-coffee-cake#step1',
           image: 'https://example.com/photos/party-coffee-cake/step1.jpg',
         },
@@ -1414,14 +1424,14 @@ export default Page;
 **Supported properties**
 
 | Property                        | Info                                                                                                                                                        |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
 | `applicantLocationRequirements` | The geographic location(s) in which employees may be located for to be eligible for the remote job                                                          |
 | `baseSalary`                    |                                                                                                                                                             |
 | `baseSalary.currency`           | The currency in which the monetary amount is expressed                                                                                                      |
 | `baseSalary.value`              | The value of the quantitative value. You can also provide an array of minimum and maximum salaries. .                                                       |
 | `baseSalary.unitText`           | A string indicating the unit of measurement [Base salary guideline](https://developers.google.com/search/docs/data-types/job-posting#basesalary)            |
 | `employmentType`                | Type of employment [Employement type guideline](https://developers.google.com/search/docs/data-types/job-posting#basesalary)                                |
-| `jobLocation`                   | The physical location(s) of the business where the employee will report to work (such as an office or worksite), not the location where the job was posted. |  |
+| `jobLocation`                   | The physical location(s) of the business where the employee will report to work (such as an office or worksite), not the location where the job was posted. |     |
 | `jobLocation.streetAddress`     | The street address. For example, 1600 Amphitheatre Pkwy                                                                                                     |
 | `jobLocation.addressLocality`   | The locality. For example, Mountain View.                                                                                                                   |
 | `jobLocation.addressRegion`     | The region. For example, CA.                                                                                                                                |
@@ -1772,10 +1782,11 @@ The property `aggregateOffer` is also available:
 
 **Recommended properties**
 
-| Property     | Info                                                                    |
-| ------------ | ----------------------------------------------------------------------- |
-| `highPrice`  | The highest price of all offers available. Use a floating point number. |
-| `offerCount` | The number of offers for the product.                                   |
+| Property     | Info                                                                                                                                                            |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `highPrice`  | The highest price of all offers available. Use a floating point number.                                                                                         |
+| `offerCount` | The number of offers for the product.                                                                                                                           |
+| `offers`     | An offer to transfer some rights to an item or to provide a service. You can provide this as a single object, or an array of objects with the properties below. |
 
 More info on the product data type can be found [here](https://developers.google.com/search/docs/data-types/product).
 
@@ -1921,6 +1932,95 @@ export default Page;
 | `publication`          | If your video is happening live and you want to be eligible for the LIVE badge.          |
 | `regionsAllowed`       | The regions where the video is allowed.                                                  |
 
+### VideoGame
+
+```jsx
+import { VideoGameJsonLd } from 'next-seo';
+
+const Page = () => (
+  <>
+    <h1>VideoGame JSON-LD</h1>
+    <VideoGameJsonLd
+      name="Red Dead Redemption 2"
+      translatorName={['Translator 1', 'Translator 2']}
+      languageName={['English', 'Kurdish']}
+      description="Arthur Morgan and the Van der Linde gang are outlaws on the run. With federal agents and the best bounty hunters in the nation massing on their heels, the gang must rob, steal and fight their way across the rugged heartland of America in order to survive."
+      processorRequirements="4 GHz"
+      memoryRequirements="16 Gb"
+      playMode="SinglePlayer"
+      applicationCategory="Game"
+      url="https://example.com/rdr2-game"
+      platformName={['PC game', 'PlayStation 4']}
+      operatingSystemName="windows"
+      keywords="outlaw, gang, federal agents"
+      datePublished="2019-02-05T08:00:00+08:00"
+      image="https://example.com/photos/1x1/photo.jpg"
+      publisherName="Vertical Games"
+      producerName="Rockstar Games"
+      producerUrl="https//www.example.com/producer"
+      offers={[
+        {
+          price: '119.99',
+          priceCurrency: 'USD',
+          priceValidUntil: '2020-11-05',
+          availability: 'https://schema.org/InStock',
+          url: 'https://example.net/rdr2-game',
+          seller: {
+            name: 'Executive Gaming',
+          },
+        },
+        {
+          price: '139.99',
+          priceCurrency: 'CAD',
+          priceValidUntil: '2020-09-05',
+          availability: 'https://schema.org/InStock',
+          url: 'https://example.org/rdr2-game',
+          seller: {
+            name: 'Executive Gaming',
+          },
+        },
+      ]}
+      aggregateRating={{
+        ratingValue: '44',
+        reviewCount: '89',
+        ratingCount: '684',
+        bestRating: '100',
+      }}
+      reviews={[
+        {
+          author: {
+            type: 'Person',
+            name: 'AhmetKaya',
+          },
+          publisher: {
+            type: 'Organization',
+            name: 'Gam Production',
+          },
+          datePublished: '2017-01-06T03:37:40Z',
+          reviewBody: 'Iki gozum.',
+          name: 'Rica ederim.',
+          reviewRating: {
+            bestRating: '5',
+            ratingValue: '5',
+            worstRating: '1',
+          },
+        },
+      ]}
+    />
+  </>
+);
+
+export default Page;
+```
+
+**Required properties**
+
+| Property | Info                         |
+| -------- | ---------------------------- |
+| `name`   | The title of the video game. |
+
+[More information about the schema](https://schema.org/VideoGame)
+
 ### Event
 
 ```jsx
@@ -2057,8 +2157,7 @@ const Page = () => (
     <QAPageJsonld
       mainEntity={{
         name: 'How many ounces are there in a pound?',
-        text:
-          'I have taken up a new interest in baking and keep running across directions in ounces and pounds. I have to translate between them and was wondering how many ounces are in a pound?',
+        text: 'I have taken up a new interest in baking and keep running across directions in ounces and pounds. I have to translate between them and was wondering how many ounces are in a pound?',
         answerCount: 3,
         upvotedCount: 26,
         dateCreated: '2016-07-23T21:11Z',
@@ -2076,8 +2175,7 @@ const Page = () => (
         },
         suggestedAnswer: [
           {
-            text:
-              'Are you looking for ounces or fluid ounces? If you are looking for fluid ounces there are 15.34 fluid ounces in a pound of water.',
+            text: 'Are you looking for ounces or fluid ounces? If you are looking for fluid ounces there are 15.34 fluid ounces in a pound of water.',
             dateCreated: '2016-11-02T21:11Z',
             upvotedCount: 42,
             url: 'https://example.com/question1#suggestedAnswer1',
@@ -2454,15 +2552,13 @@ export default () => (
           instructions: [
             {
               name: 'Preheat',
-              text:
-                'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan.',
+              text: 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan.',
               url: 'https://example.com/party-coffee-cake#step1',
               image: 'https://example.com/photos/party-coffee-cake/step1.jpg',
             },
             {
               name: 'Mix dry ingredients',
-              text:
-                'In a large bowl, combine flour, sugar, baking powder, and salt.',
+              text: 'In a large bowl, combine flour, sugar, baking powder, and salt.',
               url: 'https://example.com/party-coffee-cake#step2',
               image: 'https://example.com/photos/party-coffee-cake/step2.jpg',
             },
@@ -2529,15 +2625,13 @@ export default () => (
           instructions: [
             {
               name: 'Preheat',
-              text:
-                'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan.',
+              text: 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan.',
               url: 'https://example.com/party-coffee-cake#step1',
               image: 'https://example.com/photos/party-coffee-cake/step1.jpg',
             },
             {
               name: 'Mix dry ingredients',
-              text:
-                'In a large bowl, combine flour, sugar, baking powder, and salt.',
+              text: 'In a large bowl, combine flour, sugar, baking powder, and salt.',
               url: 'https://example.com/party-coffee-cake#step2',
               image: 'https://example.com/photos/party-coffee-cake/step2.jpg',
             },
@@ -2625,10 +2719,11 @@ export default () => (
 
 **Data Recommended properties**
 
-| Property              | Info                             |
-| --------------------- | -------------------------------- |
-| `operatingSystem`     | The directors of the movie.      |
-| `applicationCategory` | The date the movie was released. |
+| Property              | Info                              |
+| --------------------- | --------------------------------- |
+| `operatingSystem`     | The operating System suuported    |
+|                       | By the game it self.              |
+| `applicationCategory` | Desktop Software or Video Game... |
 
 For reference and more info check [Google docs for Software App](https://developers.google.com/search/docs/data-types/software-app)
 
@@ -2705,6 +2800,12 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/TomPradat"><img src="https://avatars.githubusercontent.com/u/16164512?v=4?s=100" width="100px;" alt=""/><br /><sub><b>TomPradat</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=TomPradat" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/PezeM"><img src="https://avatars.githubusercontent.com/u/16854655?v=4?s=100" width="100px;" alt=""/><br /><sub><b>PezeM</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=PezeM" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/darklight147"><img src="https://avatars.githubusercontent.com/u/39389636?v=4?s=100" width="100px;" alt=""/><br /><sub><b>darklight147</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=darklight147" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://shabith.com"><img src="https://avatars.githubusercontent.com/u/143546?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shabith Ishan Thennakone</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=shabith" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://sushantdhiman.com"><img src="https://avatars.githubusercontent.com/u/9989487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sushant</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=sushantdhiman" title="Code">💻</a> <a href="https://github.com/garmeeh/next-seo/commits?author=sushantdhiman" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://simrobin.fr"><img src="https://avatars.githubusercontent.com/u/10052336?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Simon Robin</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=simrobin" title="Documentation">📖</a> <a href="https://github.com/garmeeh/next-seo/commits?author=simrobin" title="Code">💻</a> <a href="https://github.com/garmeeh/next-seo/commits?author=simrobin" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://riccardogiorato.com/"><img src="https://avatars.githubusercontent.com/u/4527364?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Riccardo Giorato</b></sub></a><br /><a href="https://github.com/garmeeh/next-seo/commits?author=riccardogiorato" title="Code">💻</a> <a href="https://github.com/garmeeh/next-seo/commits?author=riccardogiorato" title="Tests">⚠️</a> <a href="https://github.com/garmeeh/next-seo/commits?author=riccardogiorato" title="Documentation">📖</a></td>
   </tr>
 </table>
 

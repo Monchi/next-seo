@@ -515,6 +515,65 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "PezeM",
+      "name": "PezeM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16854655?v=4",
+      "profile": "https://github.com/PezeM",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "darklight147",
+      "name": "darklight147",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39389636?v=4",
+      "profile": "https://github.com/darklight147",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "shabith",
+      "name": "Shabith Ishan Thennakone",
+      "avatar_url": "https://avatars.githubusercontent.com/u/143546?v=4",
+      "profile": "https://shabith.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "sushantdhiman",
+      "name": "Sushant",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9989487?v=4",
+      "profile": "https://sushantdhiman.com",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "simrobin",
+      "name": "Simon Robin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10052336?v=4",
+      "profile": "https://simrobin.fr",
+      "contributions": [
+        "doc",
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "riccardogiorato",
+      "name": "Riccardo Giorato",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4527364?v=4",
+      "profile": "https://riccardogiorato.com/",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
